@@ -1,0 +1,38 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+# Instalar AWS CLI
+- script: |
+    python -m pip install awscli
+  displayName: 'Install AWS CLI'
+
+# Configurar las credenciales de AWS (esto se debe hacer usando variables de pipeline)
+- script: |
+    aws configure set aws_access_key_id $(AWS_ACCESS_KEY)
+    aws configure set aws_secret_access_key $(AWS_SECRET_KEY)
+    aws configure set default.region us-east-1  # Cambia la región si es necesario
+  displayName: 'Configure AWS CLI credentials'
+
+# Desplegar los archivos compilados a S3
+- script: |
+    aws s3 sync ./dist/your-angular-app/ s3://your-bucket-name --delete
+  displayName: 'Deploy to S3'
