@@ -1,0 +1,15 @@
+<div class="movie-container">
+  
+    <div class="add-movie">
+      <input type="text" [(ngModel)]="newMovieTitle" placeholder="Título de la película" />
+      <input type="number" [(ngModel)]="newMovieYear" placeholder="Año de la película" />
+      <button (click)="addMovie()">Agregar Película</button>
+    </div>
+  
+    <ul>
+      <li *ngFor="let movie of movies">
+        {{ movie.title }} ({{ movie.year }})
+        <button (click)="deleteMovie(movie.id)">Eliminar</button>
+      </li>
+    </ul>
+</div> 

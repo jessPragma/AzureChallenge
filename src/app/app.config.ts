@@ -1,8 +1,12 @@
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { MoviesComponent } from './movies/movies.component';
 
-import { routes } from './app.routes';
-
-export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+export const appConfig = {
+  imports: [
+    importProvidersFrom(HttpClientModule), 
+    AppComponent, 
+    MoviesComponent
+  ]
 };
