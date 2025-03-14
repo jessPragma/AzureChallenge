@@ -1,0 +1,51 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - main
+
+pool: 
+  vmImage: 'ubuntu-latest'  # Asegúrate de usar Ubuntu si el agente debe usar Linux
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install -g @angular/cli@17
+    displayName: 'Install Angular CLI'
+
+  - script: |
+      npm install
+    displayName: 'Install project dependencies'
+
+  - script: |
+      npm run build
+    displayName: 'Build the project'
+
+  - script: |
+      curl "https://awscli.amazonaws.com/awscli-exe-windows-x86_64.zip" -o "awscliv2.zip"
+      powershell -Command "Expand-Archive -Path awscliv2.zip -DestinationPath awscli"
+      ./awscli/aws/install
+    displayName: 'Install AWS CLI'
+
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: 'aws-connection'
+      regionName: 'us-east-1'
+      awsCommand: 's3'
+      awsSubCommand: 'sync'
+      awsArguments: './dist/movie-challenge/browser s3://azure-challenge-lab --delete'
+    displayName: 'Upload to S3'
+
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: 'aws-connection'
+      awsCommand: 'cloudfront'
+      awsSubCommand: 'create-invalidation'
+      awsArguments: '--distribution-id E19BQQB7IQY3QZ paths "/*"'
+    displayName: 'Invalidate CloudFront'
