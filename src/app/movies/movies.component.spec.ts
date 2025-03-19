@@ -27,8 +27,8 @@ describe('MoviesComponent', () => {
 
   it('should delete a movie', () => {
     component.movies = [
-      { id: 1, title: 'El Rey Leon', year: 2010 },
-      { id: 2, title: 'Matrix', year: 1999 }
+      { id: 1, title: 'El Rey Leon', year: 2010, image: 'image.jpg' },
+      { id: 2, title: 'Matrix', year: 1999, image: 'image.jpg' }
     ];
     const initialMoviesCount = component.movies.length;
     component.deleteMovie(1);
@@ -40,6 +40,7 @@ describe('MoviesComponent', () => {
   
     component.newMovieTitle = 'Interstellar';
     component.newMovieYear = 2014;
+    component.newMovieImage = 'image.jpg';
   
     component.addMovie();
     
@@ -47,7 +48,8 @@ describe('MoviesComponent', () => {
     
     expect(component.movies).toContain(jasmine.objectContaining({
       title: 'Interstellar',
-      year: 2014
+      year: 2014,
+      image: 'image.jpg',
     }));
   });
   

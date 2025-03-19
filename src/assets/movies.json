@@ -2,16 +2,19 @@
     {
       "id": 1,
       "title": "The Shawshank Redemption",
-      "year": 1994
+      "year": 1994,
+      "image": "image.jpg"
     },
     {
       "id": 2,
       "title": "The Godfather",
-      "year": 1972
+      "year": 1972,
+      "image": "image.jpg"
     },
     {
       "id": 3,
       "title": "The Dark Knight",
-      "year": 2008
+      "year": 2008,
+      "image": "image.jpg"
     }
 ] 

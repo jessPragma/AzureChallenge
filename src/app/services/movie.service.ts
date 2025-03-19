@@ -15,7 +15,7 @@ export class MovieService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addMovie(movie: { id: number, title: string, year: number }): Observable<any> {
+  addMovie(movie: { id: number, title: string, year: number, image: string }): Observable<any> {
     return this.http.post<any>(this.apiUrl, movie);
   }
 
